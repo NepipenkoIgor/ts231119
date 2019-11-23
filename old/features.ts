@@ -35,6 +35,3 @@ function userMessage([start, end]: TemplateStringsArray, {firstName: name}: type
 }
 
 console.log(userMessage`Good day, ${person} !!`);
-
-const date = dates.includes(1);
-
