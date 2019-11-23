@@ -1,44 +1,56 @@
-interface UserAccount {
-    firstName: string;
-    age: number;
+declare class UIElement {
+    animate(options: AnimateOptions): void;
 }
 
-let p1 = UserAccount;
+interface AnimateOptions {
+    delayX: number;
+    easing: 'ease-in' | 'ease-out';
+}
+
+new UIElement().animate({delayX: 1000, easing: 'ease-in'});
+
+type Digit = 1 | 2 | 3 | 4 | true;
+let num: Digit = true;
+
+enum Actions {
+    Top,
+    Right,
+    Left,
+    Bottom,
+};
+
+let direction: keyof (typeof Actions) = 'Top';
 
 
-const userAccount = {
-    firstName: 'Ihor',
+interface IFact {
+    factId: number;
+    userFrom: string;
+    userRole: string;
+}
+
+const uniqueValue = () => {
+    return 'factId';
+};
+
+const dataList: { action: string, data: IFact }[] = [];
+
+dataList.map((item: { action: string, data: IFact }) => {
+    if (item.data[uniqueValue()] === 2) {
+
+    }
+    return item;
+});
+
+const person = {
+    name: 'Ihor',
     age: 33,
+    info: {
+        male: true,
+        name: 'Eugene',
+    },
 };
+type Person = typeof person;
+const keys: keyof Person = 'name';
+const values: Person['name' | 'age' | 'info'] = {male: 1, name: 'Vasya'};
 
-let p2: typeof userAccount = {
-    firstName: 'Ihor',
-    age: 33,
-};
-
-
-const s;
-let a: typeof s = 'asd';
-
-
-let isDone: boolean = false;
-let str: string = 'some value';
-let num: number = null;
-let bigNum: bigint = 4n;
-
-let und: undefined = undefined;
-let nill: null = null;
-
-const key1: symbol = Symbol('key1');
-const key2: unique symbol = Symbol('key2');
-const key3 = Symbol('key3');
-
-let strictObject = {
-    [key1]: 100,
-    [key2]: 'Some value',
-    [key3]: true,
-};
-let a1 = strictObject[key1];
-let a2 = strictObject[key2];
-let a3 = strictObject[key3];
-
+let str: AnimateOptions['easing'] = 1;
