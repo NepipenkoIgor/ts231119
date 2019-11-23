@@ -1,33 +1,93 @@
-// let sn: string | number = '1';
-// let user: { name: string } & { age: number } | number = {name: 'Ihor', age: 33};
+// interface IPoint {
+//     x: number;
+//     y: number;
+// }
+//
+// type Point = {
+//     x: number;
+//     y: number;
+// }
+//
+// let obj1: {
+//     x: number;
+//     y: number;
+// };
+//
+// let obj2: IPoint;
+//
+// let obj3: Point;
 
-type worker = {
-    id: number,
-    salary?: number,
-    info: {
-        male: boolean;
-    };
+// interface IFn {
+//     (x: number, y: number): number;
+// }
+//
+// type Fn = (x: number, y: number) => number;
+//
+// let fn: (x: number, y: number) => number = (_x: number, _y: number) => {
+//     return 2;
+// };
+// let fn1: IFn = (_x: number, _y: number) => {
+//     return 2;
+// };
+// let fn2: Fn = (_x: number, _y: number) => {
+//     return 2;
+// };
+//
+// let fn3: (x: number, y: number) => number;
+
+// type PointX = { x: number };
+//
+// interface IPointY {
+//     y: number;
+// }
+//
+// type Point = PointX & IPointY;
+//
+// interface IPoint extends PointX, IPointY {
+//
+// }
+//
+// let p1: Point = {
+//     x: 1,
+//     y: 1,
+// };
+//
+// let p2: IPoint = {
+//     x: 1,
+//     y: 1,
+// };
+//
+// class Point1 implements Point {
+//     x = 1;
+//     y = 1;
+// }
+// class Point2 implements IPoint {
+//     x = 1;
+//     y = 1;
+// }
+//  type SNB = string | number | boolean;
+
+
+// type Point =  {
+//     y: number;
+// };
+// type Point =  {
+//     x: number;
+// };
+
+
+let p: Point = {
+    x: 1,
+    y: 1,
 };
 
-type IStudent = {
-    id: string;
-    name: string;
-    lectures: string[];
-} & worker ;
 
-type ITeacher = {
-    id: number;
-    name: string;
-    lessons: string[];
-} & worker;
-
-let obj: Object;
-
-function getSubjects(person: ITeacher & Object | IStudent) {
-    if ('lessons' in person) {
-        return person.lessons;
-    }
-    return person.lectures;
+interface Point {
+    y: number;
 }
 
-let a: Omit
+interface Point {
+    x: number;
+}
+
+let a: Record
