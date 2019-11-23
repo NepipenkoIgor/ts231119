@@ -1,39 +1,38 @@
-let anyType: any = null;
-anyType.a = 1;
-anyType['a'] = 1;
-anyType = {};
-anyType();
+const user: {
+    readonly firstName: string,
+    readonly age?: number,
+} = {
+    firstName: 'Ihor',
+};
 
-let objType: Object = {a: 1};
-objType.a = 1;
-objType['a'] = 1;
-objType = {};
-objType();
-objType = 1;
-Object.create(objType);
+user.age = 22;
+let map: {
+    [userName: string]: typeof user,
+} = {
+    'Ihor': {
+        firstName: 'Ihor',
+    },
+};
 
+let arr1: ReadonlyArray<number> = [1, 2];
+let arr2: typeof arr1[] = [[1, 2, 3], [2, 3, 4]];
+arr2[0].push();
+arr1[100] = 1;
+arr1[0] = 43;
+type Interface = number | string | typeof user
+let arr3: [Interface, Interface, Interface] = [{
+    firstName: 'Ihor',
+}, 'str', 1];
 
-let obj1Type: object = {a: 1};
-obj1Type.a = 1;
-obj1Type['a'] = 1;
-obj1Type = {};
-obj1Type();
-obj1Type = null;
-Object.create(objType);
-
-
-let unkType: unknown = null;
-unkType.a.b = 1;
-unkType['a'] = 1;
-unkType = {};
-unkType();
-unkType = {};
-unkType = 1;
-unkType = null;
+arr3[100] = 1;
+arr3.push(3);
 
 
-let voidType: void = undefined;
+const arr = [10, 12] as const;
+arr.push();
+arr[100] = 1;
 
-function fn(): void {
-
-}
+let obj = {
+    firstName: 'Ihor',
+} as const;
+obj.firstName = 'Eugene';
