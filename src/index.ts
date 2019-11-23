@@ -1,56 +1,39 @@
-declare class UIElement {
-    animate(options: AnimateOptions): void;
+let anyType: any = null;
+anyType.a = 1;
+anyType['a'] = 1;
+anyType = {};
+anyType();
+
+let objType: Object = {a: 1};
+objType.a = 1;
+objType['a'] = 1;
+objType = {};
+objType();
+objType = 1;
+Object.create(objType);
+
+
+let obj1Type: object = {a: 1};
+obj1Type.a = 1;
+obj1Type['a'] = 1;
+obj1Type = {};
+obj1Type();
+obj1Type = null;
+Object.create(objType);
+
+
+let unkType: unknown = null;
+unkType.a.b = 1;
+unkType['a'] = 1;
+unkType = {};
+unkType();
+unkType = {};
+unkType = 1;
+unkType = null;
+
+
+let voidType: void = undefined;
+
+function fn(): void {
+
 }
-
-interface AnimateOptions {
-    delayX: number;
-    easing: 'ease-in' | 'ease-out';
-}
-
-new UIElement().animate({delayX: 1000, easing: 'ease-in'});
-
-type Digit = 1 | 2 | 3 | 4 | true;
-let num: Digit = true;
-
-enum Actions {
-    Top,
-    Right,
-    Left,
-    Bottom,
-};
-
-let direction: keyof (typeof Actions) = 'Top';
-
-
-interface IFact {
-    factId: number;
-    userFrom: string;
-    userRole: string;
-}
-
-const uniqueValue = () => {
-    return 'factId';
-};
-
-const dataList: { action: string, data: IFact }[] = [];
-
-dataList.map((item: { action: string, data: IFact }) => {
-    if (item.data[uniqueValue()] === 2) {
-
-    }
-    return item;
-});
-
-const person = {
-    name: 'Ihor',
-    age: 33,
-    info: {
-        male: true,
-        name: 'Eugene',
-    },
-};
-type Person = typeof person;
-const keys: keyof Person = 'name';
-const values: Person['name' | 'age' | 'info'] = {male: 1, name: 'Vasya'};
-
-let str: AnimateOptions['easing'] = 1;
