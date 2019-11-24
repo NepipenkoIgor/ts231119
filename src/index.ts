@@ -1,36 +1,50 @@
-function getFullName(this: { name: string, surname: string }) {
-    return `${this.name} ${this.surname}`;
-}
+// interface IPoint {
+//     x: number;
+//
+//     sum(): number;
+// }
+//
+// class BasePoint implements IPoint {
+//     private z: number = 3;
+//
+//     public constructor(
+//         public readonly x: number,
+//         protected y: number
+//     ) {
+//
+//     }
+//
+//     public sum(): number {
+//         return this.x + this.y + this.z;
+//     }
+// }
+//
+// class Point extends BasePoint {
+//     public constructor(
+//         x: number,
+//         y: number
+//     ) {
+//         super(x, y);
+//     }
+// }
+//
+// const p = new Point(2, 2);
 
-let account = {
-    name: 'Ihor',
-    surname: 'Nepipenko',
-    getFullName,
 
-};
+class Singleton {
+    private static _instance: Singleton;
 
-account.getFullName();
+    private constructor() {
+    }
 
-
-interface IUElement {
-    addClickListener(onclick: (this: void, e: Event) => void): void;
-}
-
-class UIElement implements IUElement {
-    addClickListener(_onclick: (this: void, e: Event) => void): void {
-
+    public static getInstance(): Singleton {
+        if (!Singleton._instance) {
+            Singleton._instance = new Singleton();
+        }
+        return Singleton._instance;
     }
 }
 
-
-class Handler {
-    info: string;
-
-    onClickBad(this: this, _: Event) {
-
-    }
-}
-
-let h = new Handler();
-let uiElement: UIElement = new UIElement();
-uiElement.addClickListener(h.onClickBad)
+const inst1: Singleton = Singleton.getInstance();
+const inst2: Singleton = Singleton.getInstance();
+const inst3: Singleton = Singleton.getInstance();
