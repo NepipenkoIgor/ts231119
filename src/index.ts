@@ -1,38 +1,48 @@
 import 'reflect-metadata';
 
-function checkTypeInRunTime(target: Object, key: string) {
-    const {name: typeName} = Reflect.getMetadata('design:type', target, key);
-    let val: unknown;
-    Object.defineProperty(target, key, {
-        get() {
-            return val;
-        },
-        set(v: any): void {
-            if (typeof v !== typeName.toLowerCase()) {
-                throw new Error(`type for ${key} is not ${typeName}`);
+
+const RANGE_KEY: unique symbol = Symbol('RANGE_KEY');
+
+function Validate(target: Object, key: string, descriptor: PropertyDescriptor): void {
+    const originalValue = descriptor.value;
+    descriptor.value = (...args: unknown[]) => {
+        const existingRange: { [key: number]: number[] } = Reflect.getMetadata(RANGE_KEY, target, key) || {};
+        for (const paramIndex of Object.keys(existingRange)) {
+            const [min, max] = existingRange[paramIndex as any];
+            const paramValue = args[paramIndex as any] as number;
+            if (paramValue < min || paramValue > max) {
+                throw new Error(`Error in ${target.constructor.name} instance. Parameter of method ${key} on position ${paramIndex}
+  out of range [${min}, ${max}]`);
             }
-            val = v;
-        },
-    });
+        }
+        return originalValue(...args);
+    };
 }
 
-// function logMethodMetaData(target: Object, key: string, _descriptor: PropertyDescriptor) {
-//     console.log(Reflect.getMetadata('design:type', target, key));
-//     console.log(Reflect.getMetadata('design:paramtypes', target, key));
-//     console.log(Reflect.getMetadata('design:returntype', target, key));
-//     console.log(Reflect.getMetadata('design:typeinfo', target, key));
-// }
+function Range(
+    min: number = 1,
+    max: number = 10
+) {
+    return (target: Object, key: string, paramIndex: number) => {
+        const existingRange: { [key: number]: number[] } = Reflect.getMetadata(RANGE_KEY, target, key) || {};
+        existingRange[paramIndex] = [min, max];
+        Reflect.defineMetadata(RANGE_KEY, existingRange, target, key);
+    };
+}
 
-class Person {
-    @checkTypeInRunTime
-    public firstName!: string;
+class Calculator {
+    @Validate
+    public updatePercentage(
+        @Range(0, 100) _oldValue: number,
+        @Range(0, 100) _newValue: number
+    ) {
 
-    public setFullName(_middle: string, _surname: string): number {
-        return 1;
     }
-
 }
 
-const p = new Person();
+const calculator = new Calculator();
 
-(p.firstName as any) = [];
+calculator.updatePercentage(34, 35);
+setTimeout(() => {
+    calculator.updatePercentage(35, 150);
+}, 5000);
