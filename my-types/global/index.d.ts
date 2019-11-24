@@ -1,1 +1,1 @@
-declare function $(selector: string): any;
+// declare function $(selector: string): any;
