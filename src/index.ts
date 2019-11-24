@@ -81,7 +81,7 @@ function average(_a: number | string, _b: number | string, _c?: string): string 
     // }
     // const avg: number = total / args.length;
     // return `Average is ${avg}`;
-    return  'str';
+    return 'str';
 }
 
 average(1, '2');
@@ -96,3 +96,19 @@ average(1, '2', 2, '3', 4, 5, 6, 5);
 average(1, 2, 's');
 const num: Array = average(1, 2, 1);
 
+function sum(num: number) {
+    let currentSum = num;
+
+    function f(num2: number) {
+        currentSum += num2;
+        return f;
+    }
+
+    f[Symbol.toPrimitive] = () => {
+        return currentSum;
+    };
+
+    return f;
+}
+
+const a = sum(1, 2, 3, 3, 4, 4, 5);
