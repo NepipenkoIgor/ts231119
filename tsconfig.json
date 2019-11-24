@@ -44,7 +44,7 @@
     "noUnusedLocals": true,
     /* Report errors on unused locals. */
     "noUnusedParameters": true,
-    /* Report errors on unused parameters. */
+    /* Repovrt errors on unused parameters. */
     "noImplicitReturns": true,
     /* Report error when not all code paths in function return a value. */
     "noFallthroughCasesInSwitch": true,
