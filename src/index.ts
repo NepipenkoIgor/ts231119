@@ -1,51 +1,33 @@
-type Constructable = new (...args: any[]) => {};
+class Search {
+    @debounce(500)
+    public onSearch(e: Event) {
+        const value = (e.target as HTMLInputElement).value;
+        console.log(value);
+    }
+}
 
-function Timestamped<BC extends Constructable>(Base: BC) {
-    return class extends Base {
-        timestamped = new Date();
+const search = new Search();
+
+const input = document.querySelector('input') as HTMLInputElement;
+input.addEventListener('input', search.onSearch);
+
+function debounce(ms: number) {
+    let timeoutId: number | null;
+    return function (_target: Object, _key: string | symbol, descriptor: PropertyDescriptor) {
+        console.log(_target);
+        console.log(_key);
+        console.log(descriptor);
+        const originalValue = descriptor.value;
+        return {
+            ...descriptor,
+            value: (...args: unknown[]) => {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                timeoutId = setTimeout(() => {
+                    originalValue(...args);
+                }, ms);
+            },
+        };
     };
 }
-
-function Tagged<BC extends Constructable>(Base: BC) {
-    return class extends Base {
-        tagged = ['ts', 'js'];
-    };
-}
-
-
-interface IPoint {
-    x: number;
-
-    sum(): number;
-}
-
-abstract class BasePoint implements IPoint {
-    public abstract x: number;
-
-    public getX(): number {
-        return this.x;
-    }
-
-    public abstract sum(): number;
-}
-
-class Point extends BasePoint {
-    public constructor(
-        public x: number,
-        public y: number
-    ) {
-        super();
-    }
-
-    public sum(): number {
-        return 1;
-    }
-}
-
-class MixedPoint extends Timestamped(Tagged(Point)) {
-
-}
-
-const p = new MixedPoint(2, 2);
-
-
