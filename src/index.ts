@@ -1,50 +1,51 @@
-// interface IPoint {
-//     x: number;
-//
-//     sum(): number;
-// }
-//
-// class BasePoint implements IPoint {
-//     private z: number = 3;
-//
-//     public constructor(
-//         public readonly x: number,
-//         protected y: number
-//     ) {
-//
-//     }
-//
-//     public sum(): number {
-//         return this.x + this.y + this.z;
-//     }
-// }
-//
-// class Point extends BasePoint {
-//     public constructor(
-//         x: number,
-//         y: number
-//     ) {
-//         super(x, y);
-//     }
-// }
-//
-// const p = new Point(2, 2);
+type Constructable = new (...args: any[]) => {};
+
+function Timestamped<BC extends Constructable>(Base: BC) {
+    return class extends Base {
+        timestamped = new Date();
+    };
+}
+
+function Tagged<BC extends Constructable>(Base: BC) {
+    return class extends Base {
+        tagged = ['ts', 'js'];
+    };
+}
 
 
-class Singleton {
-    private static _instance: Singleton;
+interface IPoint {
+    x: number;
 
-    private constructor() {
+    sum(): number;
+}
+
+abstract class BasePoint implements IPoint {
+    public abstract x: number;
+
+    public getX(): number {
+        return this.x;
     }
 
-    public static getInstance(): Singleton {
-        if (!Singleton._instance) {
-            Singleton._instance = new Singleton();
-        }
-        return Singleton._instance;
+    public abstract sum(): number;
+}
+
+class Point extends BasePoint {
+    public constructor(
+        public x: number,
+        public y: number
+    ) {
+        super();
+    }
+
+    public sum(): number {
+        return 1;
     }
 }
 
-const inst1: Singleton = Singleton.getInstance();
-const inst2: Singleton = Singleton.getInstance();
-const inst3: Singleton = Singleton.getInstance();
+class MixedPoint extends Timestamped(Tagged(Point)) {
+
+}
+
+const p = new MixedPoint(2, 2);
+
+
