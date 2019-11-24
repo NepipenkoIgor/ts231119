@@ -1,38 +1,14 @@
-import { extends } from 'tslint/lib/configs/latest';
+import { generateMenu } from './menu';
+import { list } from './data';
+import './styles.css';
 
-type NotReadonly<T> = {
-    -readonly [P in keyof T]: T[P]
-}
-
-type Acc = {
-    readonly firstName: string,
-    readonly age: number,
-};
-
-let acc1: NotReadonly<Acc> = {
-    firstName: 'Ihor',
-    age: 33,
-};
-
-acc1.age = 22;
-
-const cc: Record<'s' | { a: 1 }, string> = {s: 'some', 0: 'some'};
-
-interface Info {
-    info: { salary: number };
-}
-
-interface Person {
-    name: string;
-    age: number;
-}
-
-interface Accs extends Person, Info {
-
-}
-
-type RemoveByType<T, E> = {
-    [P in keyof T]: E extends T[P] ? never : P
-}[keyof T];
-
-const p: RemoveByType<Person, { male: boolean, salary: number }> = 1;
+const navMenu: HTMLDivElement = document.querySelector('.menu') as HTMLDivElement;
+navMenu.innerHTML = generateMenu(list);
+navMenu.addEventListener('click', (e: MouseEvent) => {
+    const el: HTMLElement = e.target as HTMLElement;
+    if (!el.classList.contains('title')) {
+        return;
+    }
+    const parentLi: HTMLLIElement = el.parentNode as HTMLLIElement;
+    parentLi.classList.toggle('menu-open');
+});
