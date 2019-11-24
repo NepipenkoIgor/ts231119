@@ -1,8 +1,3 @@
-export interface IListItem {
-    readonly title: string;
-    readonly items?: IListItem[];
-}
-
 export const list: IListItem[] = [
     {
         title: 'Животные',
