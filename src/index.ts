@@ -46,3 +46,4 @@ calculator.updatePercentage(34, 35);
 setTimeout(() => {
     calculator.updatePercentage(35, 150);
 }, 5000);
+
